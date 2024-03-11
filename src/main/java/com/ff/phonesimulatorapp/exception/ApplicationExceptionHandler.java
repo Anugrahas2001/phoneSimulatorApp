@@ -9,16 +9,17 @@ import com.ff.phonesimulatorapp.dto.ResponseStructure;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {
-	@ExceptionHandler(ApplicationException.class)
-	public ResponseEntity<ResponseStructure<String>> catchApplicationException(ApplicationException exception) {
+	@ExceptionHandler(ContactNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> catchApplicationException(ContactNotFoundException exception) {
 
-		ResponseStructure<String> rs = new ResponseStructure<>();
-		rs.setStatusCode(HttpStatus.BAD_REQUEST.value());
-		rs.setMessage("BAD Request");
-		rs.setMessage(exception.getMessage());
+		ResponseStructure<String> response = new ResponseStructure<>();
+		response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		response.setMessage("BAD Request");
+		response.setMessage(exception.getMessage());
 
-		return new ResponseEntity<ResponseStructure<String>>(rs, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.BAD_REQUEST);
 
 	}
+	
 
 }

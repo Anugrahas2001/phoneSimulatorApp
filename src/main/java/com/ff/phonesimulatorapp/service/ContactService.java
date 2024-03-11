@@ -26,21 +26,19 @@ public class ContactService {
 			response.setData(receivedContact);
 			response.setMessage("Contact Saved Suceesfully...!");
 			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
-		} else
-			throw new ApplicationException("Contact not saved");
-
+		}
+		return null; 
 	}
 
 	public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts() {
 		List<Contact> contactList=contactDao.getAllContacts();
-		if(contactList !=null)
-		{
+		
 			ResponseStructure<List<Contact>> responseStructure=new ResponseStructure<List<Contact>>();
 			responseStructure.setStatusCode(HttpStatus.OK.value());
 			responseStructure.setMessage("Contact details retrieved successfully");
 			responseStructure.setData(contactList);
-		}
-		
+			
+			return new ResponseEntity<ResponseStructure<List<Contact>>>(responseStructure,HttpStatus.OK);
 	}
 
 }

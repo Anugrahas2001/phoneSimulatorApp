@@ -1,6 +1,10 @@
 package com.ff.phonesimulatorapp.dao;
 
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.Optional;
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,9 +22,26 @@ public class ContactDao {
 		return contactRepository.save(contact);
 	}
 
+<<<<<<< HEAD
 	public List<Contact> getAllContacts() {
 		List<Contact> contactList=contactRepository.findAll();
 		return contactList;
 	}
+=======
+//find the contact by id
+	public Contact findContact(int id) {
+		Optional<Contact> option = contactRepository.findById(id);
+		if (option.isPresent()) {
+			return option.get();
+		} else
+			return null;
+
+	}
+	
+	
+	
+	
+	
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 
 }
