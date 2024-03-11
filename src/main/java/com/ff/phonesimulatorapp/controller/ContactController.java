@@ -1,7 +1,10 @@
 package com.ff.phonesimulatorapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,11 @@ private ContactService contactService;
 @PostMapping("/add")
 public ResponseEntity<ResponseStructure<Contact>>saveContact(@RequestBody Contact contact){
 	return contactService.saveContact(contact);
+}
+
+@GetMapping("/getAllContacts")
+public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts(){
+	return contactService.getAllContacts();
 }
 
 

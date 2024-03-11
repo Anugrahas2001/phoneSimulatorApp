@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApplicationException extends RuntimeException {
+	
 	String message = "";
 
 	@Override

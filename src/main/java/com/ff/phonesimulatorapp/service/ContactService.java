@@ -1,5 +1,7 @@
 package com.ff.phonesimulatorapp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.http.HttpStatus;
@@ -25,8 +27,20 @@ public class ContactService {
 			response.setMessage("Contact Saved Suceesfully...!");
 			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
 		} else
-			throw new ApplicationContextException("Contact not saved");
+			throw new ApplicationException("Contact not saved");
 
+	}
+
+	public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts() {
+		List<Contact> contactList=contactDao.getAllContacts();
+		if(contactList !=null)
+		{
+			ResponseStructure<List<Contact>> responseStructure=new ResponseStructure<List<Contact>>();
+			responseStructure.setStatusCode(HttpStatus.OK.value());
+			responseStructure.setMessage("Contact details retrieved successfully");
+			responseStructure.setData(contactList);
+		}
+		
 	}
 
 }
