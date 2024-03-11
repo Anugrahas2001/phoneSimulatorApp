@@ -1,7 +1,11 @@
 package com.ff.phonesimulatorapp.dao;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.Optional;
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 =======
 import java.util.Optional;
 >>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
@@ -23,11 +27,14 @@ public class ContactDao {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public List<Contact> getAllContacts() {
 		List<Contact> contactList=contactRepository.findAll();
 		return contactList;
 	}
 =======
+=======
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 //find the contact by id
 	public Contact findContact(int id) {
 		Optional<Contact> option = contactRepository.findById(id);
@@ -42,6 +49,9 @@ public class ContactDao {
 	
 	
 	
+<<<<<<< HEAD
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
+=======
 >>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 
 }

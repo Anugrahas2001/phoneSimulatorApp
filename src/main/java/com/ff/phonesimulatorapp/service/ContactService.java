@@ -3,7 +3,6 @@ package com.ff.phonesimulatorapp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ff.phonesimulatorapp.dao.ContactDao;
 import com.ff.phonesimulatorapp.dto.ResponseStructure;
 import com.ff.phonesimulatorapp.entity.Contact;
+import com.ff.phonesimulatorapp.exception.ContactNotFoundException;
 
 @Service
 public class ContactService {
@@ -26,8 +26,15 @@ public class ContactService {
 			response.setData(receivedContact);
 			response.setMessage("Contact Saved Suceesfully...!");
 			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
+
 		}
-		return null; 
+		
+	 else {
+			ResponseStructure<Contact> response = new ResponseStructure<Contact>();
+			response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+			response.setMessage("Contact not saved...!");
+			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts() {
@@ -39,6 +46,25 @@ public class ContactService {
 			responseStructure.setData(contactList);
 			
 			return new ResponseEntity<ResponseStructure<List<Contact>>>(responseStructure,HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<Contact>> editContact(int id, Contact contact) {
+		Contact recievedContact = contactDao.findContact(id);
+		if (recievedContact != null) {
+			Contact updatedContact = new Contact();
+			updatedContact.setContactName(contact.getContactName());
+			updatedContact.setContactnum(contact.getContactnum());
+			updatedContact.setContactGroup(contact.getContactGroup());
+			contactDao.saveContact(updatedContact);
+			ResponseStructure<Contact> response = new ResponseStructure<Contact>();
+			response.setStatusCode(HttpStatus.CREATED.value());
+			response.setData(updatedContact);
+			response.setMessage("Contact Saved Suceesfully...!");
+			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
+
+		} else {
+			throw new ContactNotFoundException();
+		}
 	}
 
 }

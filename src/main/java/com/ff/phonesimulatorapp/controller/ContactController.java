@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
+=======
+import org.springframework.web.bind.annotation.PathVariable;
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 =======
 import org.springframework.web.bind.annotation.PathVariable;
 >>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
@@ -30,6 +34,7 @@ public ResponseEntity<ResponseStructure<Contact>>saveContact(@RequestBody Contac
 	return contactService.saveContact(contact);
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 @GetMapping("/getAllContacts")
 public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts(){
@@ -41,10 +46,15 @@ public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts(){
 
 
 =======
+=======
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 @PutMapping("/edit/{contactId}")
 public ResponseEntity<ResponseStructure<Contact>>editContact(@PathVariable int id, @RequestBody Contact contact){
 	 
 	return contactService.editContact(id,contact);
+<<<<<<< HEAD
+>>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
+=======
 >>>>>>> 7e1242cf7c8006f3fbfee93346c8d1dc13811bda
 
 
