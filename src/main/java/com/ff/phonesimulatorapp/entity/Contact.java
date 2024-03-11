@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Contact {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int contactId;
@@ -20,5 +19,6 @@ public class Contact {
 	private String contactName;
 	private long contactnum;
 	private String contactGroup;
+	
 
 }
