@@ -18,7 +18,7 @@ public class Contact {
 	private int contactId;
 	@Column(unique = true)
 	private String contactName;
-	private long contactnum;
+	private Long contactnum;
 	private String contactGroup;
 
 }
