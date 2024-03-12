@@ -17,22 +17,24 @@ import com.ff.phonesimulatorapp.service.ContactService;
 @RestController
 @RequestMapping("/contact")
 public class ContactController {
-@Autowired
-private ContactService contactService;
+	@Autowired
+	private ContactService contactService;
 
-@PostMapping("/add")
-public ResponseEntity<ResponseStructure<Contact>>saveContact(@RequestBody Contact contact){
-	return contactService.saveContact(contact);
-}
-@PutMapping("/edit/{contactName}")
-public ResponseEntity<ResponseStructure<Contact>>editContact(@PathVariable String  contactName, @RequestBody Contact contact){
-	 
-	return contactService.editContact(contactName,contact);
+	@PostMapping("/add")
+	public ResponseEntity<ResponseStructure<Contact>> saveContact(@RequestBody Contact contact) {
+		return contactService.saveContact(contact);
+	}
 
+	@PutMapping("/edit/{contactName}")
+	public ResponseEntity<ResponseStructure<Contact>> editContact(@PathVariable String contactName,
+			@RequestBody Contact contact) {
 
-}
-@DeleteMapping("/delete/{contactName}")
-public ResponseEntity<ResponseStructure<Contact>>deleteContact(@PathVariable String contactName){
-	return contactService.deleteContact(contactName);
-}
+		return contactService.editContact(contactName, contact);
+
+	}
+
+	@DeleteMapping("/delete/{contactName}")
+	public ResponseEntity<ResponseStructure<Contact>> deleteContact(@PathVariable String contactName) {
+		return contactService.deleteContact(contactName);
+	}
 }
