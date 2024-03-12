@@ -22,7 +22,7 @@ public class ContactService {
 			ResponseStructure<Contact> response = new ResponseStructure<Contact>();
 			response.setStatusCode(HttpStatus.CREATED.value());
 			response.setData(receivedContact);
-			response.setMessage("Contact Saved Suceesfully...!");
+			response.setMessage("Success");
 			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
 		} else {
 			ResponseStructure<Contact> response = new ResponseStructure<Contact>();
@@ -35,53 +35,43 @@ public class ContactService {
 
 // edit contact details
 	public ResponseEntity<ResponseStructure<Contact>> editContact(String name, Contact contact) {
-	    Contact receivedContact = contactDao.findContact(name);
-	    
-	    if (receivedContact != null) {
-	        if (contact.getContactName() != null) {
-	            receivedContact.setContactName(contact.getContactName());
-	        }
-	        
-	        if (contact.getContactnum() != null) {
-	            receivedContact.setContactnum(contact.getContactnum());
-	        }
-	        if (contact.getContactGroup() != null) {
-	            receivedContact.setContactGroup(contact.getContactGroup());
-	        }
-	        
-	        contactDao.saveContact(receivedContact);
+		Contact receivedContact = contactDao.findContact(name);
 
-	        ResponseStructure<Contact> response = new ResponseStructure<>();
-	        response.setStatusCode(HttpStatus.CREATED.value());
-	        response.setData(receivedContact);
-	        response.setMessage("Contact Saved Successfully...!");
-	        return new ResponseEntity<>(response, HttpStatus.CREATED);
-	    } else {
-	        throw new ContactNotFoundException();
-	    }
+		if (receivedContact != null) {
+			if (contact.getContactName() != null) {
+				receivedContact.setContactName(contact.getContactName());
+			}
+
+			if (contact.getContactnum() != null) {
+				receivedContact.setContactnum(contact.getContactnum());
+			}
+			if (contact.getContactGroup() != null) {
+				receivedContact.setContactGroup(contact.getContactGroup());
+			}
+
+			contactDao.saveContact(receivedContact);
+
+			ResponseStructure<Contact> response = new ResponseStructure<>();
+			response.setStatusCode(HttpStatus.OK.value());
+			response.setData(receivedContact);
+			response.setMessage("OK");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			throw new ContactNotFoundException();
+		}
 	}
-
 
 //delete contact
 	public ResponseEntity<ResponseStructure<Contact>> deleteContact(String contactName) {
 		Contact recievedContact = contactDao.findContact(contactName);
 		if (recievedContact != null) {
-			boolean deletedContact = contactDao.deleteContact(contactName);
-			if (deletedContact == true) {
-				ResponseStructure<Contact> response = new ResponseStructure<Contact>();
-				response.setStatusCode(HttpStatus.OK.value());
-				response.setMessage("Contact deleted Suceesfully...!");
-				return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.OK);
-
-			} else {
-				throw new ContactNotFoundException();
-			}
+			contactDao.deleteContact(recievedContact);
+			return new ResponseEntity<ResponseStructure<Contact>>(HttpStatus.OK);
 
 		} else {
 			throw new ContactNotFoundException();
 		}
 
 	}
-
 
 }

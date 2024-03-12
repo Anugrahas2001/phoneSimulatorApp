@@ -8,6 +8,7 @@ import com.ff.phonesimulatorapp.repository.ContactRepository;
 
 @Repository
 public class ContactDao {
+
 	@Autowired
 	private ContactRepository contactRepository;
 
@@ -18,7 +19,7 @@ public class ContactDao {
 
 //find the contact by name
 	public Contact findContact(String name) {
-		Contact contact= contactRepository.findByContactName(name);
+		Contact contact = contactRepository.findByContactName(name);
 		if (contact != null) {
 			return contact;
 		} else
@@ -26,13 +27,8 @@ public class ContactDao {
 
 	}
 
-	public boolean deleteContact(String contactName) {
-	return	contactRepository.deleteContactByContactName(contactName);		
+	public void deleteContact(Contact contact) {
+		contactRepository.delete(contact);
 	}
-	
-	
-	
-	
-	
 
 }
