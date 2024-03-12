@@ -1,5 +1,7 @@
 package com.ff.phonesimulatorapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +16,10 @@ import lombok.Setter;
 public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private int contactId;
 	@Column(unique = true)
 	private String contactName;
 	private Long contactnum;
 	private String contactGroup;
-	
-
 }
