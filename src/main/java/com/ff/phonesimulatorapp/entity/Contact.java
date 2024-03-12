@@ -17,8 +17,8 @@ public class Contact {
 	private int contactId;
 	@Column(unique = true)
 	private String contactName;
-	private Long contactnum;
+	private Long contactNumber;
 	private String contactGroup;
-	
+	private boolean isCallInProgress = false;
 
 }

@@ -17,10 +17,20 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		ResponseStructure<String> response = new ResponseStructure<>();
 		response.setStatusCode(HttpStatus.BAD_REQUEST.value());
 		response.setMessage("BAD Request");
-		response.setMessage(exception.getMessage());
+		response.setData(exception.getMessage());
 
 		return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(CallStatusException.class)
+	public ResponseEntity<ResponseStructure<String>> catchCallStatusException(CallStatusException exception) {
 
+		ResponseStructure<String> response = new ResponseStructure<>();
+		response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		response.setMessage("Bad Request");
+		response.setData(exception.getMessage());
+
+		return new ResponseEntity<ResponseStructure<String>>(response, HttpStatus.BAD_REQUEST);
 	}
 
 }
