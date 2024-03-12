@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ff.phonesimulatorapp.dao.ContactDao;
+import com.ff.phonesimulatorapp.dto.ContactDto;
 import com.ff.phonesimulatorapp.dto.ResponseStructure;
 import com.ff.phonesimulatorapp.entity.Contact;
+import com.ff.phonesimulatorapp.exception.CallStatusException;
 import com.ff.phonesimulatorapp.exception.ContactNotFoundException;
 
 @Service
@@ -28,8 +30,8 @@ public class ContactService {
 			return new ResponseEntity<ResponseStructure<Contact>>(response, HttpStatus.CREATED);
 
 		}
-		
-	 else {
+
+		else {
 			ResponseStructure<Contact> response = new ResponseStructure<Contact>();
 			response.setStatusCode(HttpStatus.BAD_REQUEST.value());
 			response.setMessage("Contact not saved...!");
@@ -38,14 +40,14 @@ public class ContactService {
 	}
 
 	public ResponseEntity<ResponseStructure<List<Contact>>> getAllContacts() {
-		List<Contact> contactList=contactDao.getAllContacts();
-		
-			ResponseStructure<List<Contact>> responseStructure=new ResponseStructure<List<Contact>>();
-			responseStructure.setStatusCode(HttpStatus.OK.value());
-			responseStructure.setMessage("Contact details retrieved successfully");
-			responseStructure.setData(contactList);
-			
-			return new ResponseEntity<ResponseStructure<List<Contact>>>(responseStructure,HttpStatus.OK);
+		List<Contact> contactList = contactDao.getAllContacts();
+
+		ResponseStructure<List<Contact>> responseStructure = new ResponseStructure<List<Contact>>();
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Contact details retrieved successfully");
+		responseStructure.setData(contactList);
+
+		return new ResponseEntity<ResponseStructure<List<Contact>>>(responseStructure, HttpStatus.OK);
 	}
 
 // edit contact details
@@ -57,8 +59,8 @@ public class ContactService {
 				receivedContact.setContactName(contact.getContactName());
 			}
 
-			if (contact.getContactnum() != null) {
-				receivedContact.setContactnum(contact.getContactnum());
+			if (contact.getContactNumber() != null) {
+				receivedContact.setContactNumber(contact.getContactNumber());
 			}
 			if (contact.getContactGroup() != null) {
 				receivedContact.setContactGroup(contact.getContactGroup());
@@ -87,6 +89,76 @@ public class ContactService {
 			throw new ContactNotFoundException();
 		}
 
+	}
+
+	public ResponseEntity<ResponseStructure<Contact>> callContact(String contactName) {
+		Contact contact = contactDao.findContactbyName(contactName);
+
+		if (contact != null) {
+			if (!(contact.isCallInProgress())) {
+				contact.setCallInProgress(true);
+				contactDao.saveContact(contact);
+
+				// the logic to connect to an actual number requires third party api which
+				// should be
+				// written here
+
+				ResponseStructure<Contact> structure = new ResponseStructure<Contact>();
+				structure.setStatusCode(HttpStatus.OK.value());
+				structure.setMessage("Calling ...");
+				structure.setData(contact);
+
+				return new ResponseEntity<ResponseStructure<Contact>>(structure, HttpStatus.OK);
+			} else
+				throw new CallStatusException("Call already in Progress");
+		} else
+			throw new ContactNotFoundException();
+	}
+
+	public ResponseEntity<ResponseStructure<Contact>> endCall(String contactName) {
+		Contact contact = contactDao.findContactbyName(contactName);
+
+		if (contact != null) {
+			if (contact.isCallInProgress()) {
+				contact.setCallInProgress(false);
+				contactDao.saveContact(contact);
+
+				// the logic to end a call requires third party api which should be
+				// written here
+
+				ResponseStructure<Contact> structure = new ResponseStructure<Contact>();
+				structure.setStatusCode(HttpStatus.OK.value());
+				structure.setMessage("Call Ended ...");
+				structure.setData(contact);
+
+				return new ResponseEntity<ResponseStructure<Contact>>(structure, HttpStatus.OK);
+			} else
+				throw new CallStatusException("Call not in Progress");
+		} else
+			throw new ContactNotFoundException();
+	}
+
+	public ResponseEntity<ResponseStructure<ContactDto>> messageContact(String contactName, ContactDto contactDto) {
+
+		Contact contact = contactDao.findContactbyName(contactName);
+
+		if (contact != null) {
+		
+			//set a remaining fields of ContactDto object to provide as response
+			contactDto.setContactName(contact.getContactName());
+			contactDto.setContactNumber(contact.getContactNumber());
+
+			// the logic to send a message requires third party api which should be
+			// written here
+
+			ResponseStructure<ContactDto> structure = new ResponseStructure<ContactDto>();
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("Message sent");
+			structure.setData(contactDto);
+
+			return new ResponseEntity<ResponseStructure<ContactDto>>(structure, HttpStatus.OK);
+		} else
+			throw new ContactNotFoundException();
 	}
 
 }
