@@ -1,5 +1,8 @@
 package com.ff.phonesimulatorapp.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +21,25 @@ public class ContactDao {
 	}
 
 //find the contact by name
-	public Contact findContact(String name) {
+	public Contact findContactbyName(String name) {
 		Contact contact = contactRepository.findByContactName(name);
 		if (contact != null) {
 			return contact;
+		}
+		return null;
+	}
+
+	public List<Contact> getAllContacts() {
+		List<Contact> contactList = contactRepository.findAll();
+		return contactList;
+	}
+
+//find the contact by id
+	public Contact findContactbyId(int id) {
+		Optional<Contact> option = contactRepository.findById(id);
+		if (option.isPresent()) {
+			return option.get();
+
 		} else
 			return null;
 
