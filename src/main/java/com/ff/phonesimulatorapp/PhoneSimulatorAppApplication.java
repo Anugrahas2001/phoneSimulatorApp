@@ -2,6 +2,7 @@ package com.ff.phonesimulatorapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -13,8 +14,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		@Server(url = "http://localhost:8081", description = "Testing Phone Simulator Application OPEN API url") })
 public class PhoneSimulatorAppApplication {
 
+	private static ConfigurableApplicationContext applicationContext;													
+
 	public static void main(String[] args) {
 		SpringApplication.run(PhoneSimulatorAppApplication.class, args);
+//		SpringApplication.exit(applicationContext, ()->0);
+
 	}
 
 }

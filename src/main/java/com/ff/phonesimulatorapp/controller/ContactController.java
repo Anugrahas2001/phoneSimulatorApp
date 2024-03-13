@@ -1,5 +1,6 @@
 package com.ff.phonesimulatorapp.controller;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class ContactController {
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@GetMapping("/call/{contactName}")
-	public ResponseEntity<ResponseStructure<Contact>> callContact(@PathVariable String contactName) {
+	public ResponseEntity<ResponseStructure<Contact>> callContact(@PathVariable String contactName) throws URISyntaxException {
 		return contactService.callContact(contactName);
 	}
 
@@ -75,7 +76,7 @@ public class ContactController {
 	@ApiResponses(value = { @ApiResponse(description = "OK", responseCode = "200"),
 			@ApiResponse(content = @Content(), responseCode = "400") })
 	@GetMapping("/endCall/{contactName}")
-	public ResponseEntity<ResponseStructure<Contact>> endCall(@PathVariable String contactName) {
+	public ResponseEntity<ResponseStructure<Contact>> endCall(@PathVariable String contactName) throws URISyntaxException {
 		return contactService.endCall(contactName);
 	}
 
