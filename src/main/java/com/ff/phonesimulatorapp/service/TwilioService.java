@@ -26,7 +26,7 @@ public class TwilioService {
 		Call call = Call.creator(
 				new PhoneNumber(toPhoneNumber),
 				new PhoneNumber(twilioConfig.getPhoneNumber()),
-				new URI("https://github.com/Nakul240/twiML-file-/blob/master/voice_response.xml"))
+				new URI("http://demo.twilio.com/docs/voice.xml"))
 		.setStatusCallback(URI.create("http://postb.in/1234abcd"))
 		.create();
 		
