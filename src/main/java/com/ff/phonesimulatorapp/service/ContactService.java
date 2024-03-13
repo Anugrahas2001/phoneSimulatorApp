@@ -1,5 +1,6 @@
 package com.ff.phonesimulatorapp.service;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ff.phonesimulatorapp.configuration.TwilioConfig;
 import com.ff.phonesimulatorapp.dao.ContactDao;
 import com.ff.phonesimulatorapp.dto.ContactDto;
 import com.ff.phonesimulatorapp.dto.ResponseStructure;
@@ -91,18 +93,25 @@ public class ContactService {
 
 	}
 
-	public ResponseEntity<ResponseStructure<Contact>> callContact(String contactName) {
+	@Autowired
+	private TwilioConfig twilioConfig;
+
+	@Autowired
+	private TwilioService twilioService;
+
+	public ResponseEntity<ResponseStructure<Contact>> callContact(String contactName) throws URISyntaxException {
 		Contact contact = contactDao.findContactbyName(contactName);
 
 		if (contact != null) {
 			if (!(contact.isCallInProgress())) {
-				contact.setCallInProgress(true);
-				contactDao.saveContact(contact);
-
 				// the logic to connect to an actual number requires third party api which
 				// should be
 				// written here
+				twilioService.makeCall(twilioConfig.getToPhoneNumber());
 
+				contact.setCallInProgress(true);
+				contactDao.saveContact(contact);
+				
 				ResponseStructure<Contact> structure = new ResponseStructure<Contact>();
 				structure.setStatusCode(HttpStatus.OK.value());
 				structure.setMessage("Calling ...");
@@ -115,7 +124,7 @@ public class ContactService {
 			throw new ContactNotFoundException();
 	}
 
-	public ResponseEntity<ResponseStructure<Contact>> endCall(String contactName) {
+	public ResponseEntity<ResponseStructure<Contact>> endCall(String contactName) throws URISyntaxException {
 		Contact contact = contactDao.findContactbyName(contactName);
 
 		if (contact != null) {
@@ -125,6 +134,7 @@ public class ContactService {
 
 				// the logic to end a call requires third party api which should be
 				// written here
+				twilioService.endCall();
 
 				ResponseStructure<Contact> structure = new ResponseStructure<Contact>();
 				structure.setStatusCode(HttpStatus.OK.value());
@@ -143,13 +153,14 @@ public class ContactService {
 		Contact contact = contactDao.findContactbyName(contactName);
 
 		if (contact != null) {
-		
-			//set a remaining fields of ContactDto object to provide as response
+
+			// set a remaining fields of ContactDto object to provide as response
 			contactDto.setContactName(contact.getContactName());
 			contactDto.setContactNumber(contact.getContactNumber());
 
 			// the logic to send a message requires third party api which should be
 			// written here
+			twilioService.sendSms(contactDto.getMessage());
 
 			ResponseStructure<ContactDto> structure = new ResponseStructure<ContactDto>();
 			structure.setStatusCode(HttpStatus.OK.value());
